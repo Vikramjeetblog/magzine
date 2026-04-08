@@ -21,10 +21,10 @@ export default function Navbar() {
           {/* CENTER LOGO */}
           <Link to="/" className="text-center leading-tight">
             <h1 className="text-4xl md:text-5xl font-heading tracking-wide">
-              LABEL
+             SPOTLIGHT 
             </h1>
             <p className="text-[10px] tracking-[0.4em]">
-              RECORDS
+              MAGAZINE
             </p>
           </Link>
 
