@@ -31,6 +31,13 @@ const artists = [
     role: "Artist",
     image: "/images/mizzie.png",
   },
+{
+
+    name: "Off The Street",
+    role: "Artist",
+    image: "/images/otf.png",
+  
+}
 ]
 
 export default function HorizontalSection() {

@@ -1,17 +1,109 @@
-import React from "react"
+import React, { useState } from "react"
 
 const Submit = () => {
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    link: "",
+    message: ""
+  })
+
+  const [errors, setErrors] = useState({})
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+
+  // Handle Change
+  const handleChange = (e) => {
+    const { name, value } = e.target
+
+    // Block numbers/special chars in name
+    if (name === "name") {
+      if (/[^a-zA-Z\s]/.test(value)) return
+    }
+
+    setFormData({
+      ...formData,
+      [name]: value
+    })
+
+    // clear error while typing
+    setErrors(prev => ({
+      ...prev,
+      [name]: ""
+    }))
+  }
+
+  // Validation
+  const validate = () => {
+    let newErrors = {}
+
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required"
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required"
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Enter valid email address"
+    }
+
+    if (!formData.link.trim()) {
+      newErrors.link = "Work link is required"
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = "Message cannot be empty"
+    }
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  // Submit
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    if (loading || submitted) return
+
+    if (!validate()) return
+
+    setLoading(true)
+    setSuccess(false)
+
+    try {
+      await fetch("YOUR_GOOGLE_SCRIPT_URL", {
+        method: "POST",
+        body: JSON.stringify(formData)
+      })
+
+      setSuccess(true)
+      setSubmitted(true)
+
+      setFormData({
+        name: "",
+        email: "",
+        link: "",
+        message: ""
+      })
+
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <section className="bg-[#0a0a0a] text-white min-h-screen pt-32 pb-24 relative overflow-hidden">
 
-      {/* BACKGROUND TEXT */}
       <h1 className="absolute top-20 left-[-40px] text-[160px] md:text-[240px] font-heading text-white/[0.03]">
         SUBMIT
       </h1>
 
       <div className="max-w-7xl mx-auto px-6 relative">
 
-        {/* HEADER */}
         <div className="mb-24 max-w-3xl">
           <p className="text-xs uppercase tracking-[0.5em] text-gray-500 mb-6">
             Submission
@@ -26,7 +118,6 @@ const Submit = () => {
             If your work carries identity, originality, and strong artistic vision, our team will review it for potential feature.
           </p>
 
-          {/* IMPORTANT CLARITY */}
           <div className="mt-10 border-l border-white/20 pl-6">
             <p className="text-gray-300 leading-relaxed">
               This platform features work from both our signed artists and a curated selection of independent artists.
@@ -38,12 +129,10 @@ const Submit = () => {
           </div>
         </div>
 
-        {/* MAIN LAYOUT */}
         <div className="grid md:grid-cols-2 gap-20 items-start">
 
-          {/* LEFT - EDITORIAL */}
+          {/* LEFT */}
           <div className="space-y-16">
-
             <div>
               <h3 className="text-sm uppercase tracking-widest text-gray-500 mb-4">
                 What We Look For
@@ -73,23 +162,20 @@ const Submit = () => {
               </p>
             </div>
 
-            {/* QUOTE */}
             <div className="border-l border-white/20 pl-6">
               <p className="text-lg font-heading leading-relaxed">
                 “We don’t follow sound.  
                 We discover it.”
               </p>
             </div>
-
           </div>
 
-          {/* RIGHT - FORM */}
+          {/* RIGHT FORM */}
           <div className="relative">
 
-            {/* DIVIDER */}
             <div className="hidden md:block absolute left-[-40px] top-0 h-full w-[1px] bg-white/10"></div>
 
-            <form className="space-y-10">
+            <form className="space-y-10" onSubmit={handleSubmit}>
 
               {/* NAME */}
               <div>
@@ -98,8 +184,14 @@ const Submit = () => {
                 </label>
                 <input
                   type="text"
-                  className="w-full bg-transparent border-b border-gray-600 py-3 focus:outline-none focus:border-white transition"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className={`w-full bg-transparent border-b py-3 focus:outline-none transition ${
+                    errors.name ? "border-red-500" : "border-gray-600"
+                  }`}
                 />
+                {errors.name && <p className="text-red-500 text-xs mt-2">{errors.name}</p>}
               </div>
 
               {/* EMAIL */}
@@ -109,8 +201,14 @@ const Submit = () => {
                 </label>
                 <input
                   type="email"
-                  className="w-full bg-transparent border-b border-gray-600 py-3 focus:outline-none focus:border-white transition"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className={`w-full bg-transparent border-b py-3 focus:outline-none transition ${
+                    errors.email ? "border-red-500" : "border-gray-600"
+                  }`}
                 />
+                {errors.email && <p className="text-red-500 text-xs mt-2">{errors.email}</p>}
               </div>
 
               {/* LINK */}
@@ -120,8 +218,14 @@ const Submit = () => {
                 </label>
                 <input
                   type="text"
-                  className="w-full bg-transparent border-b border-gray-600 py-3 focus:outline-none focus:border-white transition"
+                  name="link"
+                  value={formData.link}
+                  onChange={handleChange}
+                  className={`w-full bg-transparent border-b py-3 focus:outline-none transition ${
+                    errors.link ? "border-red-500" : "border-gray-600"
+                  }`}
                 />
+                {errors.link && <p className="text-red-500 text-xs mt-2">{errors.link}</p>}
               </div>
 
               {/* MESSAGE */}
@@ -131,21 +235,31 @@ const Submit = () => {
                 </label>
                 <textarea
                   rows="4"
-                  className="w-full bg-transparent border-b border-gray-600 py-3 focus:outline-none focus:border-white transition resize-none"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  className={`w-full bg-transparent border-b py-3 focus:outline-none transition resize-none ${
+                    errors.message ? "border-red-500" : "border-gray-600"
+                  }`}
                 ></textarea>
+                {errors.message && <p className="text-red-500 text-xs mt-2">{errors.message}</p>}
               </div>
 
               {/* BUTTON */}
               <button
                 type="submit"
+                disabled={loading || submitted}
                 className="border border-white px-10 py-3 text-xs uppercase tracking-[0.3em] hover:bg-white hover:text-black transition"
               >
-                Submit Work
+                {loading
+                  ? "Submitting..."
+                  : success
+                  ? "Submitted ✓"
+                  : "Submit Work"}
               </button>
 
             </form>
 
-            {/* FOOT NOTE */}
             <p className="text-gray-500 text-xs mt-10 max-w-sm">
               This submission form is intended for independent artists only. We review all entries, but due to volume, only selected artists will be contacted or featured.
             </p>
