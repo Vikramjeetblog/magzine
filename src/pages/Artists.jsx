@@ -31,6 +31,11 @@ const Artists = () => {
     name: "Mizzie",
     image: "/images/mizzie.png",
     slug: "mizzie",
+  },
+  {
+    name: "Off The Street",
+    image: "/images/otf.png",
+    slug: "off-the-street",
   }
 ]
 	return (

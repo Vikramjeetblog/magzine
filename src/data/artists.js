@@ -23,4 +23,36 @@ export const artists = [
     image: "/images/dhruv.png",
     bio: "Known for sharp lyricism and urban storytelling.",
   },
+  {
+    slug: "sweta",
+    name: "Sweta",
+    role: "Artist",
+    location: "Kurseong,India",
+    image: "/images/sweta.png",
+    bio: "a rising artist from Kurseong, is known for her heartfelt and soothing voice. Proudly representing The Chordifiers Studio, she’s bringing fresh energy to the music scene. Stay tuned for her upcoming projects!",
+  },
+  {
+    slug: "diyaan",
+    name: "Diyaan",
+    role: "Artist",
+    location: "Kashmir,India",
+    image: "/images/diyaan.png",
+    bio: "is an artist from Kashmir, known for their unique sound and captivating music. Representing The Chordifiers Studio, he is making waves from his heart out. Stay tuned for their latest hits!",
+  },
+  {
+    slug: "mizzie",
+    name: "MizzieLmb",
+    role: "Artist",
+    location: "Zimbabwe",
+    image: "/images/mizzie.png",
+    bio: "is a talented artist from Zimbabwe, celebrated for her strong voice and electrifying energy. As part of The Chordifiers Studio, she’s redefining music with her unique approach. Don’t miss her latest creations!",
+  },
+  {
+    slug: "off-the-street",
+    name: "Off The Street",
+    role: "Artist",
+    location: "Bhopal,India",
+    image: "/images/otf.png",
+    bio: "A collective bringing raw street energy into music.",
+  }
 ]
